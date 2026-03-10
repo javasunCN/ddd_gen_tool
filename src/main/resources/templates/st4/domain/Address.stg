@@ -1,0 +1,56 @@
+// 模板组
+AddressTemplate(data) ::= <<
+package <data.packagePath>;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.util.Objects;
+
+/**
+ * 地址值对象
+ *
+ * @author ZhangZhiHong
+ */
+@Getter
+@EqualsAndHashCode
+@ToString
+public class Address {
+
+    /** 国家 **/
+    private final String country;
+    /** 省/州 **/
+    private final String province;
+    /** 城市 **/
+    private final String city;
+    /** 区/县 **/
+    private final String district;
+    /** 街道 **/
+    private final String street;
+    /** 邮政编码 **/
+    private final String zipCode;
+
+
+    public Address(String street, String city, String state,
+                   String zipCode, String country, String province, String district) {
+        this.street = Objects.requireNonNull(street, "Street cannot be null");
+        this.city = Objects.requireNonNull(city, "City cannot be null");
+        this.province = Objects.requireNonNull(province, "City cannot be null");
+        this.district = Objects.requireNonNull(district, "City cannot be null");
+        this.zipCode = Objects.requireNonNull(zipCode, "Zip code cannot be null");
+        this.country = Objects.requireNonNull(country, "Country cannot be null");
+    }
+
+    /**
+     * 拼接完整地址
+     * @param address 地址对象
+     * @return 完整地址
+     */
+    public static String completeAddress(Address address) {
+        return address.country + address.province + address.city + address.district + address.street;
+    }
+
+
+}
+>>

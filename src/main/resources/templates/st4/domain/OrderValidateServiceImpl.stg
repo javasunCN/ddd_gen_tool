@@ -1,0 +1,56 @@
+// 模板组
+OrderValidateServiceImplTemplate(data) ::= <<
+package <data.packagePath>;
+
+import cn.hutool.v7.core.collection.CollUtil;
+import com.yiqian.external_service.CustomerService;
+import com.yiqian.external_service.InventoryService;
+import com.yiqian.external_service.PaymentService;
+import com.yiqian.order.dto.feign.InventoryProduct;
+import com.yiqian.order.dto.req.CreateOrderRequest;
+import com.yiqian.order.dto.req.ProductItemRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * 订单校验服务实现类
+ *
+ * @author ZhangZhiHong
+ */
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class OrderValidateServiceImpl implements OrderValidateService {
+    private final InventoryService inventoryService;
+    private final PaymentService paymentService;
+    private final CustomerService customerService;
+
+    @Override
+    public boolean validateInventory(CreateOrderRequest request) {
+        List\<Long> productIdList = request.getProductItem().stream().map(ProductItemRequest::getProductId).toList();
+        // 获取可用的库存商品列表
+        List\<InventoryProduct> inventoryProductList = inventoryService.getAvailableQuantity(productIdList);
+        if (CollUtil.isEmpty(inventoryProductList)) {
+            log.info("库存商品不足！productIdList={}", productIdList);
+            return false;
+        }
+        Map\<Long, Integer> inventoryProductMap = inventoryProductList.stream().collect(Collectors.toMap(InventoryProduct::getProductId, InventoryProduct::getAvailableQuantity));
+        // 校验库存是否充足
+        for (ProductItemRequest item : request.getProductItem()) {
+            // 校验库存是否充足
+            Long productId = item.getProductId();
+            Integer availableQuantity = inventoryProductMap.get(productId);
+            if (availableQuantity == null || availableQuantity \< item.getQuantity()) {
+                log.info("库存商品不足！productId={}, availableQuantity={}, requiredQuantity={}", productId, availableQuantity, item.getQuantity());
+                return false;
+            }
+        }
+        return true;
+    }
+}
+>>

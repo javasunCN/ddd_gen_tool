@@ -1,0 +1,18 @@
+// 模板组
+applicationResourceTemplate(data) ::= <<
+server:
+  port: 8601
+
+spring:
+  application:
+    name: <data.projectName>
+  profiles:
+    active: dev
+  threads:
+    virtual:
+      enabled: true
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+>>

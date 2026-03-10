@@ -1,0 +1,132 @@
+// 模板组
+OrderTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.math.BigDecimal;
+import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+/**
+ *
+ *
+ * @author ZhangZhiHong
+ */
+/**
+ * 订单表
+ */
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName(value = "`order`")
+public class Order {
+    /**
+     * 订单ID（主键）
+     */
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
+
+    /**
+     * 订单编号（业务唯一）
+     */
+    @TableField(value = "order_no")
+    private String orderNo;
+
+    /**
+     * 用户ID
+     */
+    @TableField(value = "user_id")
+    private Long userId;
+
+    /**
+     * 商品ID
+     */
+    @TableField(value = "product_id")
+    private Long productId;
+
+    /**
+     * 商品名称（快照）
+     */
+    @TableField(value = "product_name")
+    private String productName;
+
+    /**
+     * 购买数量
+     */
+    @TableField(value = "quantity")
+    private Integer quantity;
+
+    /**
+     * 单价（快照）
+     */
+    @TableField(value = "unit_price")
+    private BigDecimal unitPrice;
+
+    /**
+     * 订单总金额
+     */
+    @TableField(value = "total_amount")
+    private BigDecimal totalAmount;
+
+    /**
+     * 状态：0-待支付 1-已支付 2-已发货 3-已完成 4-已取消
+     */
+    @TableField(value = "`status`")
+    private Byte status;
+
+    /**
+     * 支付时间
+     */
+    @TableField(value = "pay_time")
+    private Date payTime;
+
+    /**
+     * 收货人姓名
+     */
+    @TableField(value = "consignee")
+    private String consignee;
+
+    /**
+     * 收货人电话
+     */
+    @TableField(value = "phone")
+    private String phone;
+
+    /**
+     * 收货地址
+     */
+    @TableField(value = "address")
+    private String address;
+
+    /**
+     * 订单备注
+     */
+    @TableField(value = "remark")
+    private String remark;
+
+    /**
+     * 是否删除：0-否 1-是
+     */
+    @TableField(value = "is_deleted")
+    private Boolean isDeleted;
+
+    /**
+     * 创建时间
+     */
+    @TableField(value = "create_time")
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField(value = "update_time")
+    private Date updateTime;
+}
+>>

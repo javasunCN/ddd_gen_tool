@@ -1,0 +1,31 @@
+// 模板组
+BusinessExceptionTemplate(data) ::= <<
+package <data.packagePath>;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * 业务异常
+ * @author ZhangZhiHong
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class BusinessException extends RuntimeException {
+    private String code;
+    private String message;
+
+    public BusinessException(String code, String message) {
+        super(message);
+        this.code = code;
+        this.message = message;
+    }
+
+    public BusinessException(String code, String message, Throwable cause) {
+        super(message, cause);
+        this.code = code;
+        this.message = message;
+    }
+}
+
+>>

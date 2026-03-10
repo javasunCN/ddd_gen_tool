@@ -1,0 +1,71 @@
+// 模板组
+MoneyTemplate(data) ::= <<
+package <data.packagePath>;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.math.BigDecimal;
+import java.util.Currency;
+import java.util.Objects;
+
+/**
+ * 货币值对象
+ *
+ * @author ZhangZhiHong
+ */
+@Getter
+@EqualsAndHashCode
+@ToString
+public class Money implements Comparable\<Money> {
+    private final BigDecimal amount;
+    private final Currency currency;
+
+    public static final Money ZERO = new Money(BigDecimal.ZERO, Currency.getInstance("CNY"));
+
+    public Money(BigDecimal amount, Currency currency) {
+        if (amount.compareTo(BigDecimal.ZERO) \< 0) {
+            throw new IllegalArgumentException("Money amount cannot be negative");
+        }
+        this.amount = amount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        this.currency = Objects.requireNonNull(currency, "Currency cannot be null");
+    }
+
+    public Money add(Money money) {
+        validateCurrency(money);
+        return new Money(this.amount.add(money.amount), this.currency);
+    }
+
+    public Money subtract(Money money) {
+        validateCurrency(money);
+        BigDecimal result = this.amount.subtract(money.amount);
+        if (result.compareTo(BigDecimal.ZERO) \< 0) {
+            throw new IllegalArgumentException("Result cannot be negative");
+        }
+        return new Money(result, this.currency);
+    }
+
+    public Money multiply(BigDecimal multiplier) {
+        return new Money(this.amount.multiply(multiplier), this.currency);
+    }
+
+    private void validateCurrency(Money money) {
+        if (!this.currency.equals(money.currency)) {
+            throw new IllegalArgumentException("Currencies do not match");
+        }
+    }
+
+    public boolean isGreaterThan(Money money) {
+        validateCurrency(money);
+        return this.amount.compareTo(money.amount) > 0;
+    }
+
+    @Override
+    public int compareTo(Money other) {
+        validateCurrency(other);
+        return this.amount.compareTo(other.amount);
+    }
+
+}
+>>

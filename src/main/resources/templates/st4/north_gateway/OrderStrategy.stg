@@ -1,0 +1,20 @@
+// 模板组
+OrderStrategyTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.aggregate.OrderAggregate;
+import com.yiqian.order.dto.req.CreateOrderRequest;
+
+/**
+ * 生成订单策略接口
+ * @author ZhangZhiHong
+ */
+public interface OrderStrategy {
+
+    /**
+     * 创建订单
+     */
+    OrderAggregate createdOrder(CreateOrderRequest request);
+
+}
+>>

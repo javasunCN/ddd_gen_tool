@@ -1,0 +1,65 @@
+// 模板组
+OrderStatusTemplate(data) ::= <<
+package <data.packagePath>;
+
+/**
+ * 订单状态枚举对象
+ *
+ * @author ZhangZhiHong
+ */
+public enum OrderStatus {
+    CREATED("CREATED", "订单已创建"),
+    VALIDATED("VALIDATED", "订单已校验"),
+    PAID("PAID", "订单已支付"),
+    PROCESSING("PROCESSING", "订单处理中"),
+    SHIPPED("SHIPPED", "订单已发货"),
+    DELIVERED("DELIVERED", "订单已送达"),
+    CANCELLED("CANCELLED", "订单已取消"),
+    REFUNDED("REFUNDED", "订单已退款");
+
+    private final String code;
+    private final String description;
+
+    OrderStatus(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
+
+    public String getCode() {
+        return code;
+    }
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * 订单状态校验
+     * @param nextStatus
+     * @return
+     */
+    public boolean canTransitionTo(OrderStatus nextStatus) {
+        switch (this) {
+            case CREATED:
+                return nextStatus == VALIDATED || nextStatus == CANCELLED;
+            case VALIDATED:
+                return nextStatus == PAID || nextStatus == CANCELLED;
+            case PAID:
+                return nextStatus == PROCESSING || nextStatus == CANCELLED;
+            case PROCESSING:
+                return nextStatus == SHIPPED || nextStatus == CANCELLED;
+            case SHIPPED:
+                return nextStatus == DELIVERED;
+            case DELIVERED:
+                return nextStatus == REFUNDED;
+            case CANCELLED:
+                // 取消后不能再转换
+                return false;
+            case REFUNDED:
+                // 退款后不能再转换
+                return false;
+            default:
+                return false;
+        }
+    }
+}
+>>

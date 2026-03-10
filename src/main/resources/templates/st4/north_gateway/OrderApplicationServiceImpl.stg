@@ -1,0 +1,74 @@
+// 模板组
+OrderApplicationServiceImplTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.aggregate.OrderAggregate;
+import com.yiqian.application.order.converter.OrderConverter;
+import com.yiqian.application.order.strategy.OrderStrategy;
+import com.yiqian.application.order.strategy.OrderStrategyFactory;
+import com.yiqian.order.dto.req.CreateOrderRequest;
+import com.yiqian.order.dto.resp.OrderResponse;
+import com.yiqian.repository.OrderRepository;
+import com.yiqian.service.OrderDomainService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * 订单应用服务实现
+ *
+ * @author ZhangZhiHong
+ */
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class OrderApplicationServiceImpl implements OrderApplicationService {
+    private final OrderRepository orderRepository;
+    private final OrderDomainService orderDomainService;
+    private final ApplicationEventPublisher eventPublisher;
+    private final OrderConverter orderConverter;
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public OrderResponse createOrder(CreateOrderRequest request) {
+
+        OrderStrategy orderStrategy = OrderStrategyFactory.getStrategy(request.getUserType());
+        // 使用工厂创建订单
+        OrderAggregate orderAggregate = orderStrategy.createdOrder(request);
+
+        // 验证订单
+        orderAggregate.validateOrder();
+
+        // 保存订单
+        OrderAggregate savedOrder = orderRepository.save(orderAggregate);
+
+        // 发布领域事件
+        publishDomainEvents(savedOrder);
+
+        return orderConverter.toOrderResponse(savedOrder);
+    }
+
+
+
+
+    // 查询方法
+    @Override
+    public OrderAggregate getOrder(String orderIdStr) {
+        /*OrderCode orderId = OrderCode.of(orderIdStr);
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new BusinessException(ResponseCode.BUSINESS_ERROR.getCode(), orderId.toString()));*/
+        return null;
+    }
+
+
+    private void publishDomainEvents(OrderAggregate order) {
+        order.getDomainEvents().forEach(eventPublisher::publishEvent);
+        order.clearDomainEvents();
+    }
+
+
+}
+>>

@@ -1,0 +1,50 @@
+// 模板组
+AddressDTOTemplate(data) ::= <<
+package <data.packagePath>;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+/**
+ * 地址数据传输对象
+ *
+ * @author ZhangZhiHong
+ */
+@Data
+public class AddressDTO {
+
+    /** 国家 **/
+    @NotBlank(message = "国家不能为空")
+    @Size(max = 50, message = "国家不能超过50个字符")
+    private String country;
+
+    /** 省/州 **/
+    @NotBlank(message = "省/州不能为空")
+    @Size(max = 50, message = "省/州不能超过50个字符")
+    private String province;
+
+    /** 城市 **/
+    @NotBlank(message = "城市不能为空")
+    @Size(max = 100, message = "城市不能超过100个字符")
+    private String city;
+
+    /** 区/县 **/
+    @NotBlank(message = "区/县不能为空")
+    @Size(max = 50, message = "区/县不能超过100个字符")
+    private String district;
+
+    /** 街道地址 **/
+    @NotBlank(message = "街道地址不能为空")
+    @Size(max = 200, message = "街道地址不能超过200个字符")
+    private String street;
+
+    /** 邮政编码 **/
+    @NotBlank(message = "邮政编码不能为空")
+    @Size(max = 20, message = "邮政编码不能超过20个字符")
+    private String zipCode;
+
+
+
+}
+>>

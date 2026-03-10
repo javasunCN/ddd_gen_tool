@@ -1,0 +1,13 @@
+// 模板组
+OrderDomainServiceTemplate(data) ::= <<
+package <data.packagePath>;
+
+/**
+ * 订单领域服务接口
+ *
+ * @author ZhangZhiHong
+ */
+public interface OrderDomainService {
+
+}
+>>

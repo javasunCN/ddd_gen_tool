@@ -1,0 +1,66 @@
+// 模板组
+applicationPomTemplate(data) ::= <<
+\<?xml version="1.0" encoding="UTF-8"?>
+
+\<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    \<modelVersion>4.0.0\</modelVersion>
+    \<parent>
+        \<groupId><data.groupId>\</groupId>
+        \<artifactId><data.artifactId>\</artifactId>
+        \<version>${revision}\</version>
+        \<relativePath>../pom.xml\</relativePath>
+    \</parent>
+
+    \<artifactId>application\</artifactId>
+    \<packaging>jar\</packaging>
+    \<description>项目启动模块\</description>
+
+    \<properties>
+        \<java.version><data.jdkVersion>\</java.version>
+        \<project.build.sourceEncoding>UTF-8\</project.build.sourceEncoding>
+        \<project.reporting.outputEncoding>UTF-8\</project.reporting.outputEncoding>
+        \<maven.compiler.source>${java.version}\</maven.compiler.source>
+        \<maven.compiler.target>${java.version}\</maven.compiler.target>
+    \</properties>
+
+
+    \<dependencies>
+        \<dependency>
+            \<groupId><data.groupId>\</groupId>
+            \<artifactId>north_gateway\</artifactId>
+        \</dependency>
+
+        \<dependency>
+            \<groupId><data.groupId>\</groupId>
+            \<artifactId>south_gateway\</artifactId>
+        \</dependency>
+    \</dependencies>
+
+
+
+    \<build>
+        \<plugins>
+            \<plugin>
+                \<groupId>org.apache.maven.plugins\</groupId>
+                \<artifactId>maven-deploy-plugin\</artifactId>
+                \<version>3.1.1\</version>
+                \<executions>
+                    \<execution>
+                        \<id>default-deploy\</id>
+                        \<phase>deploy\</phase>
+                        \<goals>
+                            \<goal>deploy\</goal>
+                        \</goals>
+                        \<configuration>
+                            \<skip>true\</skip>
+                        \</configuration>
+                    \</execution>
+                \</executions>
+            \</plugin>
+        \</plugins>
+    \</build>
+\</project>
+
+
+>>

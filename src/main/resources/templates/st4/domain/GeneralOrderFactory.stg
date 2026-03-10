@@ -1,0 +1,51 @@
+// 模板组
+GeneralOrderFactoryTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.aggregate.OrderAggregate;
+import com.yiqian.enums.OrderCodeEnum;
+import com.yiqian.order.dto.req.CreateOrderRequest;
+import com.yiqian.service.OrderValidateService;
+import com.yiqian.valueobject.OrderCode;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
+/**
+ * 普通订单实现
+ *
+ * @author ZhangZhiHong
+ */
+@Component("GeneralOrderFactory")
+@RequiredArgsConstructor
+@Primary
+public class GeneralOrderFactory implements OrderFactory {
+
+    private final OrderValidateService orderValidateService;
+
+    @Override
+    public OrderAggregate createOrder(CreateOrderRequest request) {
+        // 验证输入参数
+        validateReqParameters(request);
+
+        // 库存校验
+        orderValidateService.validateInventory(request);
+
+        // 创建订单Code
+        OrderCode orderCode = OrderCode.generate(OrderCodeEnum.GENERAL.getCode());
+
+        // 创建订单聚合
+        return OrderAggregate.create(request, orderCode);
+    }
+
+    /**
+     * 请求参数校验
+     * @param request
+     */
+    private void validateReqParameters(CreateOrderRequest request) {
+
+    }
+
+
+}
+>>

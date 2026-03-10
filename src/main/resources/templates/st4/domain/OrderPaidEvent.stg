@@ -1,0 +1,37 @@
+// 模板组
+OrderPaidEventTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.valueobject.Money;
+import com.yiqian.valueobject.OrderCode;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.time.LocalDateTime;
+
+/**
+ * 订单支付事件
+ *
+ * @author ZhangZhiHong
+ */
+@Getter
+@ToString
+public class OrderPaidEvent {
+    private final OrderCode orderId;
+    private final String paymentId;
+    private final Money amount;
+    private final LocalDateTime paymentTime;
+    private final LocalDateTime occurredOn;
+
+    public OrderPaidEvent(OrderCode orderId, String paymentId,
+                          Money amount, LocalDateTime paymentTime) {
+        this.orderId = orderId;
+        this.paymentId = paymentId;
+        this.amount = amount;
+        this.paymentTime = paymentTime;
+        this.occurredOn = LocalDateTime.now();
+    }
+
+
+}
+>>

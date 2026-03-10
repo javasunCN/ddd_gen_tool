@@ -1,0 +1,42 @@
+// 模板组
+InventoryServiceTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.order.dto.feign.InventoryProduct;
+import com.yiqian.valueobject.ProductId;
+
+import java.util.List;
+
+/**
+ * 外部服务接口：库存服务
+ *
+ * @author ZhangZhiHong
+ */
+public interface InventoryService {
+
+    /**
+     * 获取商品可用数量
+     */
+    List\<InventoryProduct> getAvailableQuantity(List\<Long> productIdList);
+
+    /**
+     * 检查商品是否存在
+     */
+    boolean productExists(ProductId productId);
+
+    /**
+     * 预留库存
+     */
+    boolean reserveInventory(ProductId productId, int quantity, String reservationId);
+
+    /**
+     * 释放预留库存
+     */
+    boolean releaseInventory(ProductId productId, int quantity, String reservationId);
+
+    /**
+     * 扣减库存
+     */
+    boolean deductInventory(ProductId productId, int quantity);
+}
+>>

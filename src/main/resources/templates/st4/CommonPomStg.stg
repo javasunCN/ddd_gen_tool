@@ -1,0 +1,139 @@
+// 模板组
+commonPomTemplate(data) ::= <<
+\<?xml version="1.0" encoding="UTF-8"?>
+
+\<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    \<modelVersion>4.0.0\</modelVersion>
+    \<parent>
+        \<groupId><data.groupId>\</groupId>
+        \<artifactId><data.artifactId>\</artifactId>
+        \<version>${revision}\</version>
+        \<relativePath>../pom.xml\</relativePath>
+    \</parent>
+
+    \<artifactId>common\</artifactId>
+    \<packaging>jar\</packaging>
+    \<description>公共服务组件\</description>
+
+    \<properties>
+        \<java.version><data.jdkVersion>\</java.version>
+        \<project.build.sourceEncoding>UTF-8\</project.build.sourceEncoding>
+        \<project.reporting.outputEncoding>UTF-8\</project.reporting.outputEncoding>
+        \<maven.compiler.source>${java.version}\</maven.compiler.source>
+        \<maven.compiler.target>${java.version}\</maven.compiler.target>
+    \</properties>
+
+
+    \<dependencies>
+        \<dependency>
+            \<groupId>org.springframework.boot\</groupId>
+            \<artifactId>spring-boot-starter-webmvc\</artifactId>
+        \</dependency>
+
+        \<dependency>
+            \<groupId>org.projectlombok\</groupId>
+            \<artifactId>lombok\</artifactId>
+        \</dependency>
+
+        \<dependency>
+            \<groupId>cn.hutool.v7\</groupId>
+            \<artifactId>hutool-all\</artifactId>
+        \</dependency>
+        \<dependency>
+            \<groupId>cn.dev33\</groupId>
+            \<artifactId>sa-token-spring-boot3-starter\</artifactId>
+        \</dependency>
+        \<dependency>
+            \<groupId>com.fasterxml.jackson.core\</groupId>
+            \<artifactId>jackson-core\</artifactId>
+        \</dependency>
+        \<dependency>
+            \<groupId>com.fasterxml.jackson.core\</groupId>
+            \<artifactId>jackson-databind\</artifactId>
+        \</dependency>
+        \<dependency>
+            \<groupId>com.fasterxml.jackson.datatype\</groupId>
+            \<artifactId>jackson-datatype-jsr310\</artifactId>
+        \</dependency>
+        \<dependency>
+            \<groupId>com.fasterxml.jackson.core\</groupId>
+            \<artifactId>jackson-annotations\</artifactId>
+        \</dependency>
+
+        \<dependency>
+            \<groupId>org.mybatis.spring.boot\</groupId>
+            \<artifactId>mybatis-spring-boot-starter\</artifactId>
+            \<version>4.0.1\</version>
+        \</dependency>
+        \<dependency>
+            \<groupId>com.baomidou\</groupId>
+            \<artifactId>mybatis-plus-spring-boot4-starter\</artifactId>
+        \</dependency>
+
+        \<dependency>
+            \<groupId>com.mysql\</groupId>
+            \<artifactId>mysql-connector-j\</artifactId>
+            \<scope>runtime\</scope>
+        \</dependency>
+
+        \<dependency>
+            \<groupId>com.alibaba\</groupId>
+            \<artifactId>druid\</artifactId>
+        \</dependency>
+
+        \<dependency>
+            \<groupId>org.springframework.boot\</groupId>
+            \<artifactId>spring-boot-starter-jdbc\</artifactId>
+        \</dependency>
+        \<dependency>
+            \<groupId>org.springframework\</groupId>
+            \<artifactId>spring-tx\</artifactId>
+        \</dependency>
+        \<dependency>
+            \<groupId>org.springframework.retry\</groupId>
+            \<artifactId>spring-retry\</artifactId>
+        \</dependency>
+        \<dependency>
+            \<groupId>org.springframework\</groupId>
+            \<artifactId>spring-aspects\</artifactId>
+        \</dependency>
+        \<dependency>
+            \<groupId>org.springframework\</groupId>
+            \<artifactId>spring-context\</artifactId>
+        \</dependency>
+        \<dependency>
+            \<groupId>jakarta.validation\</groupId>
+            \<artifactId>jakarta.validation-api\</artifactId>
+        \</dependency>
+
+    \</dependencies>
+
+
+
+    \<build>
+        \<plugins>
+            \<plugin>
+                \<groupId>org.apache.maven.plugins\</groupId>
+                \<artifactId>maven-deploy-plugin\</artifactId>
+                \<version>3.1.1\</version>
+                \<executions>
+                    \<execution>
+                        \<id>default-deploy\</id>
+                        \<phase>deploy\</phase>
+                        \<goals>
+                            \<goal>deploy\</goal>
+                        \</goals>
+                        \<configuration>
+                            \<skip>true\</skip>
+                        \</configuration>
+                    \</execution>
+                \</executions>
+            \</plugin>
+        \</plugins>
+    \</build>
+\</project>
+
+
+
+>>

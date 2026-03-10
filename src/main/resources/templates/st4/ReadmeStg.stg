@@ -1,0 +1,393 @@
+// 模板组：README.md
+readmeTemplate(data) ::= <<
+# 易迁订单系统 - 架构设计文档
+
+## 1. 系统概述
+
+易迁订单系统是一个基于领域驱动设计（DDD）的订单管理系统，主要用于处理订单的创建、管理、支付和物流等核心业务流程。系统采用分层架构，实现了业务逻辑与技术实现的分离，提高了系统的可维护性和可扩展性。
+
+## 2. 架构设计
+
+### 2.1 设计原则
+
+- **领域驱动设计（DDD）**：以领域模型为核心，将业务逻辑与技术实现分离
+- **分层架构**：清晰的职责边界，便于维护和扩展
+- **事件驱动**：通过领域事件实现松耦合的系统集成
+- **依赖倒置**：通过接口分离实现依赖关系的解耦
+- **策略模式**：通过策略模式处理不同类型的订单逻辑
+- **工厂模式**：通过工厂模式创建复杂的领域对象
+
+### 2.2 系统架构
+
+```mermaid
+flowchart TD
+    subgraph 北向网关层
+        A[OrderController] --> B[OrderApplicationService]
+        B --> C[OrderStrategy]
+    end
+
+    subgraph 领域层
+        C --> D[OrderFactory]
+        D --> E[OrderAggregate]
+        E --> F[OrderEntity]
+        E --> G[OrderProductEntity]
+        E --> H[DomainEvents]
+        B --> I[OrderDomainService]
+        I --> J[ExternalServices]
+    end
+
+    subgraph 南向网关层
+        B --> K[OrderRepository]
+        K --> L[OrderRepositoryImpl]
+        L --> M[MyBatis]
+        J --> N[ExternalServiceImplementations]
+    end
+
+    subgraph 基础设施层
+        M --> O[Database]
+        N --> P[ExternalSystems]
+    end
+```
+
+### 2.3 模块划分
+
+| 模块名称 | 职责 | 主要组件 |
+|---------|------|----------|
+| application | 应用配置和启动 | Application.java, application.yaml |
+| common | 通用组件 | 注解、工具类、异常处理 |
+| domain | 核心业务逻辑 | 聚合根、实体、值对象、领域服务、领域事件、工厂、仓库接口 |
+| dto | 数据传输对象 | 请求/响应对象 |
+| north_gateway | 北向网关 | 应用服务、控制器、策略模式 |
+| south_gateway | 南向网关 | 仓库实现、外部服务实现、基础设施 |
+
+## 3. 领域模型设计
+
+### 3.1 聚合根
+
+#### OrderAggregate
+- **核心职责**：订单聚合根，负责订单的完整生命周期管理
+- **主要属性**：
+  - orderEntity：订单实体
+  - orderProductEntityList：订单商品列表
+  - domainEvents：领域事件集合
+- **核心方法**：
+  - create()：创建订单聚合根
+  - calculateTotalQuantity()：计算总数量
+  - calculateTotalAmount()：计算总金额
+  - validateOrder()：验证订单
+
+### 3.2 实体
+
+#### OrderEntity
+- **核心职责**：订单实体，记录订单的基本信息
+- **主要属性**：
+  - id：订单ID
+  - orderNo：订单编号（OrderCode值对象）
+  - userId：用户ID
+  - totalQuantity：总数量
+  - totalAmount：总金额（Money值对象）
+  - status：订单状态（OrderStatus枚举）
+  - consignee：收货人
+  - phone：联系电话
+  - address：收货地址（Address值对象）
+  - remark：备注
+
+#### OrderProductEntity
+- **核心职责**：订单商品实体，记录订单中的商品信息
+- **主要属性**：
+  - orderNo：订单编号
+  - productId：商品ID（ProductId值对象）
+  - productName：商品名称
+  - quantity：数量
+  - unitPrice：单价（Money值对象）
+  - totalAmount：总金额（Money值对象）
+
+### 3.3 值对象
+
+#### Address
+- **核心职责**：地址值对象，封装地址信息
+- **属性**：省、市、区、详细地址等
+
+#### Money
+- **核心职责**：金额值对象，封装金额计算逻辑
+- **属性**：金额、货币类型
+- **方法**：add()、multiply()等
+
+#### OrderCode
+- **核心职责**：订单编号值对象，确保订单编号的唯一性和格式规范
+- **属性**：订单编号字符串
+- **方法**：of()、toString()等
+
+#### ProductId
+- **核心职责**：商品ID值对象，封装商品ID的验证和处理
+- **属性**：商品ID
+- **方法**：of()、getValue()等
+
+#### CustomerCode
+- **核心职责**：客户编码值对象，封装客户编码的验证和处理
+- **属性**：客户编码
+- **方法**：of()、getValue()等
+
+### 3.4 领域服务
+
+#### OrderDomainService
+- **核心职责**：处理跨实体的业务逻辑
+- **依赖服务**：
+  - InventoryService：库存服务
+  - PaymentService：支付服务
+  - CustomerService：客户服务
+- **方法**：验证库存、处理支付等
+
+#### OrderValidateService
+- **核心职责**：订单验证服务，确保订单数据的有效性
+- **方法**：验证订单数据、验证用户权限等
+
+### 3.5 领域事件
+
+#### OrderCreatedEvent
+- **触发时机**：订单创建时
+- **主要属性**：
+  - orderCode：订单编号
+  - userId：用户ID
+  - totalAmount：总金额
+  - createdAt：创建时间
+
+#### OrderPaidEvent
+- **触发时机**：订单支付时
+- **主要属性**：
+  - orderCode：订单编号
+  - paymentMethod：支付方式
+  - paidAmount：支付金额
+  - paidAt：支付时间
+
+#### OrderDeliveredEvent
+- **触发时机**：订单发货时
+- **主要属性**：
+  - orderCode：订单编号
+  - logisticsCompany：物流公司
+  - trackingNumber：物流单号
+  - deliveredAt：发货时间
+
+#### OrderStatusChangedEvent
+- **触发时机**：订单状态变更时
+- **主要属性**：
+  - orderCode：订单编号
+  - oldStatus：旧状态
+  - newStatus：新状态
+  - changedAt：变更时间
+
+### 3.6 工厂
+
+#### OrderFactory
+- **核心职责**：订单工厂接口，定义创建订单的方法
+- **方法**：createOrder()
+
+#### GeneralOrderFactory
+- **核心职责**：普通订单工厂，创建普通用户的订单
+- **方法**：createOrder()
+
+#### VipOrderFactory
+- **核心职责**：VIP订单工厂，创建VIP用户的订单
+- **方法**：createOrder()
+
+### 3.7 仓库
+
+#### OrderRepository
+- **核心职责**：订单仓库接口，定义订单的持久化操作
+- **方法**：save()、findById()、update()、delete()等
+
+#### OrderRepositoryImpl
+- **核心职责**：订单仓库实现，基于MyBatis实现持久化操作
+- **方法**：实现OrderRepository接口的所有方法
+
+## 4. 应用层设计
+
+### 4.1 应用服务
+
+#### OrderApplicationService
+- **核心职责**：订单应用服务，协调领域对象完成业务操作
+- **主要方法**：
+  - createOrder()：创建订单
+  - getOrder()：查询订单
+  - updateOrderStatus()：更新订单状态
+  - cancelOrder()：取消订单
+
+### 4.2 策略模式
+
+#### OrderStrategy
+- **核心职责**：订单策略接口，定义不同类型订单的处理逻辑
+- **方法**：createdOrder()
+
+#### OrderStrategyFactory
+- **核心职责**：订单策略工厂，根据用户类型获取对应的订单策略
+- **方法**：getStrategy()、register()
+
+#### GeneralOrder
+- **核心职责**：普通订单策略，处理普通用户的订单
+- **方法**：createdOrder()
+
+#### VipOrder
+- **核心职责**：VIP订单策略，处理VIP用户的订单
+- **方法**：createdOrder()
+
+### 4.3 控制器
+
+#### OrderController
+- **核心职责**：订单控制器，处理HTTP请求
+- **主要方法**：
+  - createOrder()：创建订单
+  - getOrder()：查询订单
+  - updateOrderStatus()：更新订单状态
+  - cancelOrder()：取消订单
+
+## 5. 基础设施层设计
+
+### 5.1 外部服务实现
+
+#### CustomerServiceImpl
+- **核心职责**：客户服务实现，与客户系统集成
+- **方法**：获取客户信息、验证客户权限等
+
+#### InventoryServiceImpl
+- **核心职责**：库存服务实现，与库存系统集成
+- **方法**：检查库存、扣减库存等
+
+#### PaymentServiceImpl
+- **核心职责**：支付服务实现，与支付系统集成
+- **方法**：发起支付、查询支付状态等
+
+### 5.2 数据访问
+
+#### OrderMapper
+- **核心职责**：订单数据访问接口，定义数据库操作
+- **方法**：insert()、selectByPrimaryKey()、updateByPrimaryKey()、deleteByPrimaryKey()等
+
+#### Order
+- **核心职责**：订单数据库表映射
+- **属性**：对应数据库表的字段
+
+## 6. 核心流程
+
+### 6.1 订单创建流程
+
+```mermaid
+sequenceDiagram
+    participant Client as 客户端
+    participant Controller as 订单控制器
+    participant AppService as 应用服务
+    participant Strategy as 订单策略
+    participant Factory as 订单工厂
+    participant Aggregate as 订单聚合根
+    participant Repository as 订单仓库
+    participant EventPublisher as 事件发布器
+
+    Client-\>>Controller: 创建订单请求
+    Controller-\>>AppService: 调用createOrder()
+    AppService-\>>Strategy: 根据用户类型选择策略
+    Strategy-\>>Factory: 调用工厂创建订单
+    Factory-\>>Aggregate: 创建OrderAggregate
+    Aggregate-\>>Aggregate: 计算总数量和总金额
+    Aggregate-\>>Aggregate: 生成领域事件
+    AppService-\>>Aggregate: 验证订单
+    AppService-\>>Repository: 保存订单
+    Repository-\>>Repository: 持久化订单数据
+    AppService-\>>EventPublisher: 发布领域事件
+    AppService-\>>Controller: 返回订单响应
+    Controller-\>>Client: 返回订单创建结果
+```
+
+### 6.2 订单支付流程
+
+```mermaid
+sequenceDiagram
+    participant Client as 客户端
+    participant Controller as 订单控制器
+    participant AppService as 应用服务
+    participant DomainService as 领域服务
+    participant PaymentService as 支付服务
+    participant Repository as 订单仓库
+    participant EventPublisher as 事件发布器
+
+    Client-\>>Controller: 支付订单请求
+    Controller-\>>AppService: 调用payOrder()
+    AppService-\>>Repository: 查询订单
+    Repository-\>>AppService: 返回订单
+    AppService-\>>DomainService: 处理支付逻辑
+    DomainService-\>>PaymentService: 发起支付
+    PaymentService-\>>DomainService: 返回支付结果
+    DomainService-\>>DomainService: 生成支付事件
+    AppService-\>>Repository: 更新订单状态
+    Repository-\>>Repository: 持久化订单数据
+    AppService-\>>EventPublisher: 发布领域事件
+    AppService-\>>Controller: 返回支付响应
+    Controller-\>>Client: 返回支付结果
+```
+
+### 6.3 订单发货流程
+
+```mermaid
+sequenceDiagram
+    participant Client as 客户端
+    participant Controller as 订单控制器
+    participant AppService as 应用服务
+    participant Repository as 订单仓库
+    participant EventPublisher as 事件发布器
+
+    Client-\>>Controller: 发货请求
+    Controller-\>>AppService: 调用deliverOrder()
+    AppService-\>>Repository: 查询订单
+    Repository-\>>AppService: 返回订单
+    AppService-\>>Repository: 更新订单状态为已发货
+    Repository-\>>Repository: 持久化订单数据
+    AppService-\>>EventPublisher: 发布订单发货事件
+    AppService-\>>Controller: 返回发货响应
+    Controller-\>>Client: 返回发货结果
+```
+
+## 7. 技术栈
+
+| 类别 | 技术 | 版本 |
+|------|------|------|
+| 后端 | Java | 21+ |
+| 框架 | Spring Boot | 4.x+ |
+| ORM | MyBatis | 3.5.x+ |
+| 数据库 | MySQL | 8.x+ |
+| 工具 | Lombok | 1.18+ |
+| 工具 | Hutool | 7.0.x |
+| 构建工具 | Maven | 3.x |
+
+## 8. 部署架构
+
+### 8.1 环境要求
+
+- **JDK**：21+
+- **MySQL**：8.x+
+- **Maven**：3.6+
+
+### 8.2 部署方案
+
+- **开发环境**：本地开发，使用application-dev.yaml配置
+- **测试环境**：测试服务器，使用application-test.yaml配置
+- **生产环境**：生产服务器，使用application-prod.yaml配置
+
+## 9. 监控与日志
+
+- **日志框架**：SLF4J + Logback
+- **监控指标**：订单创建成功率、支付成功率、系统响应时间等
+- **告警机制**：异常告警、性能告警等
+
+## 10. 安全设计
+
+- **认证授权**：基于SA-token的认证授权机制
+- **数据加密**：敏感数据加密存储
+- **接口防护**：防止SQL注入、XSS攻击等
+- **审计日志**：记录关键操作日志
+
+## 11. 总结
+
+易迁订单系统采用领域驱动设计的思想，构建了一个结构清晰、职责明确的订单管理系统。通过聚合根、实体、值对象、领域服务、领域事件等核心概念，实现了业务逻辑的清晰表达和系统的可维护性。同时，通过策略模式、工厂模式等设计模式，提高了系统的灵活性和可扩展性。
+
+系统的分层架构和模块化设计使得各个组件职责明确，便于维护和扩展。事件驱动的设计使得系统间的集成更加松耦合，提高了系统的可靠性和可扩展性。
+
+未来，系统可以通过引入CQRS模式、事件溯源等技术，进一步提高系统的性能和可扩展性，满足业务的不断发展需求。
+>>

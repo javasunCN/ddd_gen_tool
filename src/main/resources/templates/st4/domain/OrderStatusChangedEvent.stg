@@ -1,0 +1,36 @@
+// 模板组
+OrderStatusChangedEventTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.enums.OrderStatus;
+import com.yiqian.valueobject.OrderCode;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.time.LocalDateTime;
+
+/**
+ * 订单状态改变事件
+ *
+ * @author ZhangZhiHong
+ */
+@Getter
+@ToString
+public class OrderStatusChangedEvent {
+    private final OrderCode orderId;
+    private final OrderStatus oldStatus;
+    private final OrderStatus newStatus;
+    private final LocalDateTime changedAt;
+    private final LocalDateTime occurredOn;
+
+    public OrderStatusChangedEvent(OrderCode orderId, OrderStatus oldStatus,
+                                   OrderStatus newStatus, LocalDateTime changedAt) {
+        this.orderId = orderId;
+        this.oldStatus = oldStatus;
+        this.newStatus = newStatus;
+        this.changedAt = changedAt;
+        this.occurredOn = LocalDateTime.now();
+    }
+
+}
+>>

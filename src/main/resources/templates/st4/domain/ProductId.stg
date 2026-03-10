@@ -1,0 +1,29 @@
+// 模板组
+ProductIdTemplate(data) ::= <<
+package <data.packagePath>;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+/**
+ * 商品ID值对象
+ *
+ * @author ZhangZhiHong
+ */
+@Getter
+@EqualsAndHashCode
+@ToString
+public class ProductId {
+
+    private final Long value;
+
+    public ProductId(Long value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Product ID cannot be null or empty");
+        }
+        this.value = value;
+    }
+
+}
+>>

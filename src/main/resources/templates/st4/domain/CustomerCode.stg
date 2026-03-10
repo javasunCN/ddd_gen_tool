@@ -1,0 +1,30 @@
+// 模板组
+CustomerCodeTemplate(data) ::= <<
+package <data.packagePath>;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+/**
+ * 客户ID值对象
+ *
+ * @author ZhangZhiHong
+ */
+@Getter
+@EqualsAndHashCode
+@ToString
+public class CustomerCode {
+
+    private final Long value;
+
+    public CustomerCode(Long value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Customer ID cannot be null or empty");
+        }
+        this.value = value;
+    }
+
+
+}
+>>

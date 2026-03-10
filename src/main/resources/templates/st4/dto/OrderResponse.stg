@@ -1,0 +1,94 @@
+// 模板组
+OrderResponseTemplate(data) ::= <<
+package <data.packagePath>;
+
+import cn.hutool.v7.core.math.Money;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.yiqian.enums.OrderStatus;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+
+/**
+ * 订单响应
+ *
+ * @author ZhangZhiHong
+ */
+@Data
+public class OrderResponse {
+
+    /**
+     * 订单ID（主键）
+     */
+    private Long id;
+
+    /**
+     * 订单编号（业务唯一）
+     */
+    private String orderNo;
+
+    /**
+     * 用户ID
+     */
+    private Long userId;
+
+    /**
+     * 购买总数量
+     */
+    private Integer totalQuantity;
+
+    /**
+     * 订单总金额
+     */
+    private Money totalAmount;
+
+    /**
+     * 状态：0-待支付 1-已支付 2-已发货 3-已完成 4-已取消
+     */
+    private OrderStatus status;
+
+    /**
+     * 支付时间
+     */
+    private Date payTime;
+
+    /**
+     * 收货人姓名
+     */
+    private String consignee;
+
+    /**
+     * 收货人电话
+     */
+    private String phone;
+
+    /**
+     * 收货地址
+     */
+    private String address;
+
+    /**
+     * 订单备注
+     */
+    private String remark;
+
+    /**
+     * 是否删除：0-否 1-是
+     */
+    private Integer isDeleted;
+
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
+
+}
+>>

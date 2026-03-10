@@ -1,0 +1,37 @@
+// 模板组
+PaymentServiceImplTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.valueobject.Money;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+/**
+ * 外部服务接口：支付服务
+ *  此处调用支付领域服务
+ * @author ZhangZhiHong
+ */
+@Service
+@Slf4j
+public class PaymentServiceImpl implements PaymentService {
+    @Override
+    public boolean verifyPayment(String transactionId, Money amount, String paymentMethod) {
+        return false;
+    }
+
+    @Override
+    public void recordSuccessfulPayment(String orderId, Money amount, String description) {
+
+    }
+
+    @Override
+    public boolean initiateRefund(String transactionId, Money amount, String reason) {
+        return false;
+    }
+
+    @Override
+    public String getPaymentStatus(String transactionId) {
+        return "";
+    }
+}
+>>

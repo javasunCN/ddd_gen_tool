@@ -1,0 +1,19 @@
+// 模板组
+OrderRepositoryTemplate(data) ::= <<
+package <data.packagePath>;
+
+/**
+ * 订单仓储接口
+ *
+ * @author ZhangZhiHong
+ */
+
+import com.yiqian.aggregate.OrderAggregate;
+
+public interface OrderRepository {
+    // 保存聚合根
+    OrderAggregate save(OrderAggregate order);
+
+
+}
+>>

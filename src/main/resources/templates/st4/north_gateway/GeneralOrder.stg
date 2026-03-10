@@ -1,0 +1,37 @@
+// 模板组
+GeneralOrderTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.aggregate.OrderAggregate;
+import com.yiqian.application.order.strategy.OrderStrategy;
+import com.yiqian.application.order.strategy.OrderStrategyFactory;
+import com.yiqian.enums.UserTypeEnum;
+import com.yiqian.factory.OrderFactory;
+import com.yiqian.order.dto.req.CreateOrderRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+/**
+ * 一般订单策略
+ * @author ZhangZhiHong
+ */
+@Component
+@RequiredArgsConstructor
+public class GeneralOrder implements OrderStrategy, InitializingBean {
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        OrderStrategyFactory.register(UserTypeEnum.GENERAL.getType(), this);
+    }
+
+    @Qualifier("GeneralOrderFactory")
+    private final OrderFactory generalOrderFactory;
+
+    @Override
+    public OrderAggregate createdOrder(CreateOrderRequest request) {
+        return generalOrderFactory.createOrder(request);
+    }
+}
+>>

@@ -1,0 +1,20 @@
+// 模板组
+OrderFactoryTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.aggregate.OrderAggregate;
+import com.yiqian.order.dto.req.CreateOrderRequest;
+
+/**
+ * 订单工厂
+ *
+ * @author ZhangZhiHong
+ */
+public interface OrderFactory {
+    /**
+     * 创建新订单
+     */
+    OrderAggregate createOrder(CreateOrderRequest request);
+
+}
+>>

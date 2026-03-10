@@ -1,0 +1,44 @@
+// 模板组
+OrderCodeTemplate(data) ::= <<
+package <data.packagePath>;
+
+import cn.hutool.v7.core.data.id.Snowflake;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+/**
+ * 订单ID值对象
+ *
+ * @author ZhangZhiHong
+ */
+@Getter
+@EqualsAndHashCode
+@ToString
+public class OrderCode {
+
+    private final String value;
+
+    private OrderCode(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            throw new IllegalArgumentException("Order Code cannot be null or empty");
+        }
+        this.value = value;
+    }
+
+    /**
+     * 生成订单值对象
+     * @param prefix 前缀
+     * @return
+     */
+    public static OrderCode generate(String prefix) {
+        return new OrderCode(prefix + new Snowflake().nextStr());
+    }
+
+    public static OrderCode of(String value) {
+        return new OrderCode(value);
+    }
+
+
+}
+>>

@@ -1,0 +1,56 @@
+// 模板组
+CustomerServiceTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.valueobject.CustomerCode;
+import com.yiqian.valueobject.Money;
+import com.yiqian.valueobject.OrderCode;
+
+/**
+ * 外部服务接口: 客户服务
+ *
+ * @author ZhangZhiHong
+ */
+public interface CustomerService {
+
+    /**
+     * 检查客户是否存在
+     */
+    boolean exists(CustomerCode customerId);
+
+    /**
+     * 检查客户是否活跃
+     */
+    boolean isActive(CustomerCode customerId);
+
+    /**
+     * 检查客户信用
+     */
+    boolean checkCredit(CustomerCode customerId, Money amount);
+
+    /**
+     * 获取客户可用信用额度
+     */
+    Money getAvailableCredit(CustomerCode customerId);
+
+    /**
+     * 获取客户会员等级
+     */
+    int getMemberLevel(CustomerCode customerId);
+
+    /**
+     * 获取客户未支付订单数量
+     */
+    int getUnpaidOrderCount(CustomerCode customerId);
+
+    /**
+     * 通知支付成功
+     */
+    void notifyPaymentSuccess(CustomerCode customerId, OrderCode orderId, Money amount);
+
+    /**
+     * 通知订单取消
+     */
+    void notifyOrderCancellation(CustomerCode customerId, OrderCode orderId, String reason);
+}
+>>

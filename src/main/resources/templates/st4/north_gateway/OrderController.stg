@@ -1,0 +1,81 @@
+// 模板组
+OrderControllerTemplate(data) ::= <<
+package <data.packagePath>;
+
+import cn.hutool.v7.json.JSONUtil;
+import com.yiqian.application.order.OrderApplicationService;
+import com.yiqian.common.ApiResponse;
+import com.yiqian.common.PageData;
+import com.yiqian.order.dto.req.CreateOrderRequest;
+import com.yiqian.order.dto.resp.OrderResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * 订单远程网关
+ *
+ * @author ZhangZhiHong
+ */
+@RestController
+@RequestMapping("/api/v1/order")
+@RequiredArgsConstructor
+@Validated
+public class OrderController {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+
+    private final OrderApplicationService orderApplicationService;
+
+    /**
+     * 创建新的订单
+     * @param request CreateOrderRequest
+     * @return ApiResponse
+     */
+    @PostMapping("/createOrder")
+    public ApiResponse\<OrderResponse> createOrder(
+            @Valid @RequestBody CreateOrderRequest request) {
+        logger.info("创建订单请求: 订单信息={}", JSONUtil.toJsonStr(request));
+        // 调用应用服务创建订单
+        return ApiResponse.success(orderApplicationService.createOrder(request));
+    }
+
+    /**
+     * 搜索订单
+     *  根据条件搜索订单列表
+     * @param request SearchOrderRequest
+     * @return ApiResponse
+     */
+    @GetMapping
+    public ApiResponse\<PageData\<OrderResponse\>> searchOrders(@Valid Object request) {
+        // 构建搜索条件
+        /** OrderSearchCriteria criteria = OrderSearchCriteria.builder()
+                .customerId(request.getCustomerId())
+                .status(request.getStatus())
+                .createdFrom(request.getCreatedFrom())
+                .createdTo(request.getCreatedTo())
+                .minAmount(request.getMinAmount())
+                .maxAmount(request.getMaxAmount())
+                .city(request.getCity())
+                .country(request.getCountry())
+                .productId(request.getProductId())
+                .sortBy(request.getSortBy())
+                .ascending("ASC".equalsIgnoreCase(request.getSortDirection()))
+                .build();
+
+        // 搜索订单
+        var orderPage = orderApplicationService.searchOrders(criteria);
+        var orderResponsePage = orderPage.map(orderConverter::toOrderResponse);
+
+        return ApiResponse.success(orderResponsePage);*/
+        return ApiResponse.success();
+    }
+
+
+
+
+}
+>>

@@ -1,0 +1,32 @@
+// 模板组
+OrderCreatedEventTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.valueobject.Money;
+import com.yiqian.valueobject.OrderCode;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.time.LocalDateTime;
+
+/**
+ * 订单创建事件
+ *
+ * @author ZhangZhiHong
+ */
+@Getter
+@ToString
+@Builder
+public class OrderCreatedEvent {
+    /** 订单编号 **/
+    private final OrderCode orderCode;
+    /** 用户ID **/
+    private final Long userId;
+    /** 总金额 **/
+    private final Money totalAmount;
+    /** 创建时间 **/
+    private final LocalDateTime createdAt;
+
+}
+>>

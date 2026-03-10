@@ -1,0 +1,75 @@
+// 模板组
+OrderProductEntityTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.valueobject.Money;
+import com.yiqian.valueobject.OrderCode;
+import com.yiqian.valueobject.ProductId;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+/**
+ * 订单商品实体
+ *
+ * @author ZhangZhiHong
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class OrderProductEntity {
+    /**
+     * 订单ID（主键）
+     */
+    private Long id;
+
+    /**
+     * 订单编号（业务唯一）
+     */
+    private OrderCode orderNo;
+
+    /**
+     * 商品ID
+     */
+    private ProductId productId;
+
+    /**
+     * 商品名称（快照）
+     */
+    private String productName;
+
+    /**
+     * 购买数量
+     */
+    private Integer quantity;
+
+    /**
+     * 单价（快照）
+     */
+    private Money unitPrice;
+
+    /**
+     * 订单总金额
+     */
+    private Money totalAmount;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
+}
+>>

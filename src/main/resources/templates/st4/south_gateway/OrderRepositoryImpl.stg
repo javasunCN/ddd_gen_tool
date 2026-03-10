@@ -1,0 +1,33 @@
+// 模板组
+OrderRepositoryImplTemplate(data) ::= <<
+package <data.packagePath>;
+
+import cn.hutool.v7.json.JSONUtil;
+import com.yiqian.aggregate.OrderAggregate;
+import com.yiqian.infrastructure.mybatis.mapper.OrderMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
+
+/**
+ * 仓储实现：查询数据或将数据持久化
+ *
+ * @author ZhangZhiHong
+ */
+@Slf4j
+@Repository
+@RequiredArgsConstructor
+public class OrderRepositoryImpl implements OrderRepository {
+
+    private final OrderMapper orderMapper;
+
+    @Override
+    public OrderAggregate save(OrderAggregate orderAggregate) {
+
+        log.info("保存到数据库:{}", JSONUtil.toJsonStr(orderAggregate));
+
+        return orderAggregate;
+    }
+
+}
+>>

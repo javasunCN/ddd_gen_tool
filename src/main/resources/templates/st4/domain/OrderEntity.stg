@@ -1,0 +1,97 @@
+// 模板组
+OrderEntityTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.enums.OrderStatus;
+import com.yiqian.valueobject.Address;
+import com.yiqian.valueobject.Money;
+import com.yiqian.valueobject.OrderCode;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+
+/**
+ * 订单实体
+ *
+ * @author ZhangZhiHong
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class OrderEntity {
+    /**
+     * 订单ID（主键）
+     */
+    private Long id;
+
+    /**
+     * 订单编号（业务唯一）
+     */
+    private OrderCode orderNo;
+
+    /**
+     * 用户ID
+     */
+    private Long userId;
+
+    /**
+     * 购买总数量
+     */
+    private Integer totalQuantity;
+
+    /**
+     * 订单总金额
+     */
+    private Money totalAmount;
+
+    /**
+     * 状态：0-待支付 1-已支付 2-已发货 3-已完成 4-已取消
+     */
+    private OrderStatus status;
+
+    /**
+     * 支付时间
+     */
+    private Date payTime;
+
+    /**
+     * 收货人姓名
+     */
+    private String consignee;
+
+    /**
+     * 收货人电话
+     */
+    private String phone;
+
+    /**
+     * 收货地址
+     */
+    private Address address;
+
+    /**
+     * 订单备注
+     */
+    private String remark;
+
+    /**
+     * 是否删除：0-否 1-是
+     */
+    private Integer isDeleted;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
+}
+>>

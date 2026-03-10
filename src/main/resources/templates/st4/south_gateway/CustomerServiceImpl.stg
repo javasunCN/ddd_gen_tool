@@ -1,0 +1,62 @@
+// 模板组
+CustomerServiceImplTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.valueobject.CustomerCode;
+import com.yiqian.valueobject.Money;
+import com.yiqian.valueobject.OrderCode;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+/**
+ * 外部服务接口: 客户服务
+ *  此处调用客户领域服务
+ * @author ZhangZhiHong
+ */
+@Service
+@Slf4j
+public class CustomerServiceImpl implements CustomerService {
+    @Override
+    public boolean exists(CustomerCode customerId) {
+        return false;
+    }
+
+    @Override
+    public boolean isActive(CustomerCode customerId) {
+        return false;
+    }
+
+    @Override
+    public boolean checkCredit(CustomerCode customerId, Money amount) {
+        return false;
+    }
+
+    @Override
+    public Money getAvailableCredit(CustomerCode customerId) {
+        return null;
+    }
+
+    @Override
+    public int getMemberLevel(CustomerCode customerId) {
+        // 调用客户领域服务获取会员等级
+        // int memberLevel = customerDomainService.getMemberLevel(customerId);
+        int memberLevel = 2;
+        return memberLevel;
+    }
+
+    @Override
+    public int getUnpaidOrderCount(CustomerCode customerId) {
+        return 0;
+    }
+
+    @Override
+    public void notifyPaymentSuccess(CustomerCode customerId, OrderCode orderId, Money amount) {
+
+    }
+
+    @Override
+    public void notifyOrderCancellation(CustomerCode customerId, OrderCode orderId, String reason) {
+
+    }
+}
+>>

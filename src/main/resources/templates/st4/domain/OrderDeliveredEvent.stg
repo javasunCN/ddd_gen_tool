@@ -1,0 +1,31 @@
+// 模板组
+OrderDeliveredEventTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.valueobject.OrderCode;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.time.LocalDateTime;
+
+/**
+ * 订单驱动事件
+ *
+ * @author ZhangZhiHong
+ */
+@Getter
+@ToString
+public class OrderDeliveredEvent {
+    private final OrderCode orderId;
+    private final LocalDateTime deliveredAt;
+    private final LocalDateTime occurredOn;
+
+    public OrderDeliveredEvent(OrderCode orderId, LocalDateTime deliveredAt) {
+        this.orderId = orderId;
+        this.deliveredAt = deliveredAt;
+        this.occurredOn = LocalDateTime.now();
+    }
+
+
+}
+>>

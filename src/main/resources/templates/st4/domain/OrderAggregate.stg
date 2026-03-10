@@ -1,0 +1,143 @@
+// 模板组
+OrderAggregateTemplate(data) ::= <<
+package <data.packagePath>;
+
+import cn.hutool.v7.core.bean.BeanUtil;
+import cn.hutool.v7.core.collection.CollUtil;
+import com.yiqian.common.ResponseCode;
+import com.yiqian.entity.OrderEntity;
+import com.yiqian.entity.OrderProductEntity;
+import com.yiqian.enums.OrderStatus;
+import com.yiqian.event.OrderCreatedEvent;
+import com.yiqian.exception.BusinessException;
+import com.yiqian.order.dto.req.CreateOrderRequest;
+import com.yiqian.order.dto.req.ProductItemRequest;
+import com.yiqian.valueobject.Address;
+import com.yiqian.valueobject.Money;
+import com.yiqian.valueobject.OrderCode;
+import com.yiqian.valueobject.ProductId;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.*;
+
+/**
+ * 订单聚合根
+ *
+ * @author ZhangZhiHong
+ */
+@Getter
+@ToString
+@EqualsAndHashCode
+public class OrderAggregate {
+    private OrderEntity orderEntity;
+    private List\<OrderProductEntity> orderProductEntityList;
+
+    private final List\<Object> domainEvents;
+
+    // 私有构造函数，通过工厂创建
+    private OrderAggregate(
+            OrderEntity orderEntity,
+            List\<OrderProductEntity> orderProductEntityList
+    ) {
+        this.orderEntity = Objects.requireNonNull(orderEntity, "Shipping address cannot be null");
+        this.orderProductEntityList = new ArrayList\<>(Objects.requireNonNull(orderProductEntityList, "Items cannot be null"));
+
+        if (CollUtil.isEmpty(orderProductEntityList)) {
+            throw new BusinessException(ResponseCode.BUSINESS_ERROR.getCode(),"Order Product is null");
+        }
+
+
+        // 计算总数量
+        calculateTotalQuantity();
+        // 计算总金额
+        calculateTotalAmount();
+
+        this.domainEvents = new ArrayList\<>();
+        // 发布订单领域事件
+        OrderCreatedEvent orderCreatedEvent = OrderCreatedEvent.builder()
+                .orderCode(this.orderEntity.getOrderNo())
+                .userId(this.orderEntity.getUserId())
+                .totalAmount(this.orderEntity.getTotalAmount())
+                .createdAt(this.orderEntity.getCreateTime())
+                .build();
+        addDomainEvent(orderCreatedEvent);
+    }
+
+
+
+    // 工厂方法
+    public static OrderAggregate create(CreateOrderRequest request, OrderCode orderCode) {
+
+        LocalDateTime createTime = LocalDateTime.now();
+
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setOrderNo(orderCode);
+        orderEntity.setUserId(request.getUserId());
+        // orderEntity.setTotalQuantity();
+        // orderEntity.setTotalAmount();
+        orderEntity.setStatus(OrderStatus.CREATED);
+        orderEntity.setConsignee(request.getConsignee());
+        orderEntity.setPhone(request.getPhone());
+        orderEntity.setAddress(BeanUtil.copyProperties(request.getAddressDto(), Address.class));
+        orderEntity.setRemark(request.getRemark());
+        orderEntity.setIsDeleted(0);
+        orderEntity.setCreateTime(LocalDateTime.now());
+        orderEntity.setUpdateTime(createTime);
+
+        List\<OrderProductEntity> orderProductEntityList = new ArrayList\<>();
+        List\<ProductItemRequest> productItem = request.getProductItem();
+
+        for (ProductItemRequest product : productItem) {
+            ProductId productId = new ProductId(product.getProductId());
+            Money unitPrice = new Money(product.getUnitPrice().getAmount(), Currency.getInstance(Locale.CHINA));
+            Money totalAmount = unitPrice.multiply(BigDecimal.valueOf(product.getQuantity()));
+            orderProductEntityList.add(
+                    OrderProductEntity.builder()
+                            .orderNo(orderEntity.getOrderNo())
+                            .productId(productId)
+                            .productName(product.getProductName())
+                            .quantity(product.getQuantity())
+                            .unitPrice(unitPrice)
+                            .totalAmount(totalAmount)
+                            .createTime(createTime)
+                            .build()
+            );
+        }
+
+
+
+        return new OrderAggregate(
+                orderEntity,
+                orderProductEntityList);
+    }
+
+    private void calculateTotalQuantity() {
+        this.orderEntity.setTotalQuantity(
+            this.orderProductEntityList.stream().mapToInt(OrderProductEntity::getQuantity).sum()
+        );
+    }
+
+    private void calculateTotalAmount() {
+        this.orderEntity.setTotalAmount(
+                this.orderProductEntityList.stream()
+                        .map(OrderProductEntity::getTotalAmount)
+                        .reduce(Money.ZERO, Money::add)
+        );
+    }
+
+    private void addDomainEvent(Object event) {
+        domainEvents.add(event);
+    }
+    public void clearDomainEvents() {
+        domainEvents.clear();
+    }
+
+    public void validateOrder() {
+
+    }
+}
+>>

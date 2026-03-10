@@ -1,0 +1,27 @@
+// 模板组
+OrderDomainServiceImplTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.external_service.CustomerService;
+import com.yiqian.external_service.InventoryService;
+import com.yiqian.external_service.PaymentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+/**
+ * 订单领域服务实现
+ *
+ * @author ZhangZhiHong
+ */
+@Service
+@RequiredArgsConstructor
+public class OrderDomainServiceImpl implements OrderDomainService {
+
+    private final InventoryService inventoryService;
+    private final PaymentService paymentService;
+    private final CustomerService customerService;
+
+
+
+}
+>>

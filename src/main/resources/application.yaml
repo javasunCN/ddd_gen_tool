@@ -1,0 +1,76 @@
+server:
+  port: 8088
+
+spring:
+  web:
+    resources:
+      # 自定义静态资源路径（可以添加多个，用逗号分隔）
+      static-locations: classpath:/static/, file:/uploads/
+      cache:
+        # 设置缓存时间（秒）(开发时关闭缓存，方便调试)
+        period: 0
+  application:
+    name: gen_tool
+  # Thymeleaf 配置（Spring Boot 已提供默认值，以下为可选自定义）
+  thymeleaf:
+    # 开发时关闭缓存，修改模板立即生效
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+
+# ST4 配置
+st4:
+  template:
+    # 是否启用模板校验
+    enable-validation: true
+    # 启动时校验
+    validate-on-startup: true
+    # 校验失败时是否阻止启动
+    fail-fast: false
+    # 模板目录
+    template-dir: classpath:templates/st4/
+    # 模板文件扩展名
+    extensions:
+      - .stg
+      - .st
+    # 校验报告目录
+    validation-report-dir: ./logs/st4-validation
+    # 报告生成
+    generate-html-report: false
+    generate-json-report: false
+    # 编码
+    encoding: UTF-8
+    # 热重载
+    hot-reload: true
+    hot-reload-interval: 5
+    # 模板缓存
+    cache-templates: true
+
+# 日志配置
+logging:
+  level:
+    com.example: INFO
+    org.springframework: WARN
+  file:
+    name: ./logs/st4-spring-boot.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# 管理端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,st4
+  endpoint:
+    health:
+      show-details: always
+    st4:
+      enabled: true
+
+springboot:
+  jdk-versions: 8,11,17,21,25
+  version-urls: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-dependencies/maven-metadata.xml

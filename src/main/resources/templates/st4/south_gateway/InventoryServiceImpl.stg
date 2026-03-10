@@ -1,0 +1,61 @@
+// 模板组
+InventoryServiceImplTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.order.dto.feign.InventoryProduct;
+import com.yiqian.valueobject.ProductId;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 外部服务接口：库存服务
+ *  此处调用库存领域服务
+ * @author ZhangZhiHong
+ */
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class InventoryServiceImpl implements InventoryService {
+
+
+    @Override
+    public List\<InventoryProduct> getAvailableQuantity(List\<Long> productIdList) {
+        List\<InventoryProduct> inventoryProductList = new ArrayList\<>();
+        // 调用库存领域服务获取可用数量
+        for (Long productId : productIdList) {
+            // 调用库存领域服务获取商品可用数量
+            // int availableQuantity = restTemplate.getAvailableQuantity(productId);
+            int availableQuantity = 0;
+            inventoryProductList.add(InventoryProduct.builder()
+                            .productId(productId)
+                            .availableQuantity(availableQuantity)
+                    .build());
+        }
+        return inventoryProductList;
+    }
+
+    @Override
+    public boolean productExists(ProductId productId) {
+        return false;
+    }
+
+    @Override
+    public boolean reserveInventory(ProductId productId, int quantity, String reservationId) {
+        return false;
+    }
+
+    @Override
+    public boolean releaseInventory(ProductId productId, int quantity, String reservationId) {
+        return false;
+    }
+
+    @Override
+    public boolean deductInventory(ProductId productId, int quantity) {
+        return false;
+    }
+}
+>>

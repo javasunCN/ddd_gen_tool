@@ -1,0 +1,34 @@
+// 模板组
+PaymentServiceTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.valueobject.Money;
+
+/**
+ * 外部服务接口：支付服务
+ *
+ * @author ZhangZhiHong
+ */
+public interface PaymentService {
+
+    /**
+     * 验证支付
+     */
+    boolean verifyPayment(String transactionId, Money amount, String paymentMethod);
+
+    /**
+     * 记录成功支付
+     */
+    void recordSuccessfulPayment(String orderId, Money amount, String description);
+
+    /**
+     * 发起退款
+     */
+    boolean initiateRefund(String transactionId, Money amount, String reason);
+
+    /**
+     * 查询支付状态
+     */
+    String getPaymentStatus(String transactionId);
+}
+>>

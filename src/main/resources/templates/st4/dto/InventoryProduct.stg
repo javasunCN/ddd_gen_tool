@@ -1,0 +1,21 @@
+// 模板组
+InventoryProductTemplate(data) ::= <<
+package <data.packagePath>;
+
+import lombok.Builder;
+import lombok.Data;
+
+/**
+ * 库存商品
+ *
+ * @author ZhangZhiHong
+ */
+@Data
+@Builder
+public class InventoryProduct {
+    /** 商品Id **/
+    private Long productId;
+    /** 可用数量 **/
+    private int availableQuantity;
+}
+>>

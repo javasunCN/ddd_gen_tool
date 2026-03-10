@@ -1,0 +1,30 @@
+// 模板组
+UserTypeEnumTemplate(data) ::= <<
+package <data.packagePath>;
+
+/**
+ * 用户类型
+ *
+ * @author ZhangZhiHong
+ */
+public enum UserTypeEnum {
+    GENERAL(1, "普通用户"),
+    VIP(1001, "VIP"),
+    ;
+
+    private final Integer type;
+    private final String description;
+
+    UserTypeEnum(Integer type, String description) {
+        this.type = type;
+        this.description = description;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+    public String getDescription() {
+        return description;
+    }
+}
+>>

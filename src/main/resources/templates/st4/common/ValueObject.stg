@@ -1,0 +1,46 @@
+// 模板组
+ValueObjectTemplate(data) ::= <<
+package <data.packagePath>;
+
+import java.lang.annotation.*;
+
+/**
+ * 标记值对象的注解
+ */
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.PARAMETER})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface ValueObject {
+
+    /**
+     * 值对象类型
+     */
+    ValueObjectType type() default ValueObjectType.BASIC;
+
+    /**
+     * 是否不可变
+     */
+    boolean immutable() default true;
+
+    /**
+     * 是否可比较
+     */
+    boolean comparable() default true;
+
+    /**
+     * 验证规则
+     */
+    String validator() default "";
+
+    enum ValueObjectType {
+        BASIC,      // 基本值对象
+        COMPOSITE,  // 复合值对象
+        ENUM,       // 枚举值对象
+        MONEY,      // 金额值对象
+        DATE_RANGE, // 日期范围值对象
+        ADDRESS,    // 地址值对象
+        CUSTOM      // 自定义值对象
+    }
+}
+
+>>

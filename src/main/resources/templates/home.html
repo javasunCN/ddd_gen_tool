@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>领域驱动架构生成器</title>
+    <!-- 引入 Bootstrap 5 CSS 用于快速美化 -->
+    <link rel="stylesheet" th:href="@{/bootstrap-5.3.3-dist/css/bootstrap.min.css}" >
+</head>
+<body>
+<div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSheet">
+    <div class="container mt-5 bg-body-secondary p-4 py-md-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h1 class="card-title">领域驱动架构生成器</h1>
+            </div>
+            <div class="card-body bg-transparent">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-success">
+                    <tr>
+                        <th scope="col" style="width: 300px;">框架</th>
+                        <th scope="col">版本</th>
+                        <th scope="col" style="width: 300px;">说明</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row" class="text-center align-middle">SpringBoot</th>
+                        <td>
+                            <select class="form-select" id="springBootVersion">
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" id="springBootVersionBtn">版本对应信息</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center align-middle">JDK版本</th>
+                        <td>
+                            <input type="text" id="jdk" placeholder="请输入项目jdk版本" value="21">
+                        </td>
+                        <td>
+                            JDK版本选择惨遭上面的-版本对应信息
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center align-middle">项目名称(<font style="color: red">必填</font>)</th>
+                        <td>
+                            <input type="text" class="form-control" id="projectName" placeholder="请输入项目名称" value="yiqian_order"/>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center align-middle">生成项目路径(<font style="color: red">必填</font>)</th>
+                        <td>
+                            <input type="text" class="form-control" id="projectPath" placeholder="请输入项目路径" value="/Users/zhangzhihong/ChuangYe/2026/YiQian/project"/>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center align-middle">项目构建信息(<font style="color: red">必填</font>)</th>
+                        <td>
+                            <p class="text-success">groupId：<input type="text" class="form-control" id="groupId" placeholder="例如:org.springframework.boot" value="com.yiqian"/></p>
+                            <p class="text-success">artifactId：<input type="text" class="form-control" id="artifactId" placeholder="例如:spring-boot-starter" value="yiqian-order"/></p>
+                            <p class="text-success">description：<input type="text" class="form-control" id="description" placeholder="微服务描述" value="微服务项目描述"/></p>
+                        </td>
+                        <td>
+                            采用Maven构建项目
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-muted">
+                <div style="float: right;">
+                    <button class="btn btn-primary" id="project">生成项目</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card shadow bg-warning" style="display: none;" id="springBootInfo" role="alert">
+    <table class="table table-striped table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Spring Boot 版本</th>
+            <th scope="col">Spring Cloud 版本（代号）</th>
+            <th scope="col">最低 JDK 要求</th>
+            <th scope="col">推荐 JDK</th>
+            <th scope="col">支持范围</th>
+            <th scope="col">关键说明</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row" class="text-center align-middle">Spring Boot 4.0.x</th>
+            <td>Spring Cloud 2025.1.x（Oakwood）</td>
+            <td>JDK 17</td>
+            <td>JDK 21 / 25</td>
+            <td>JDK 17–25（4.0.3+ 支持 JDK 26 预览）</td>
+            <td>基于 Spring Framework 7.0，全面采用 Jakarta EE 11，移除 Undertow 支持，默认使用 Tomcat 11+ 或 Jetty 12.1+</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-center align-middle">Spring Boot 3.5.x</th>
+            <td>Spring Cloud 2025.0.x（Northfields）</td>
+            <td>JDK 17</td>
+            <td>JDK 17 / 21</td>
+            <td>JDK 17–25</td>
+            <td>3.x 系列的最后一个稳定版，内置 4.0 迁移所需的关键特性与适配机制</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-center align-middle">Spring Boot 3.4.x</th>
+            <td>Spring Cloud 2024.0.x（Moorgate）</td>
+            <td>JDK 17</td>
+            <td>JDK 17</td>
+            <td>JDK 17–23</td>
+            <td>支持 Spring Cloud 2024.0，修复大量安全漏洞</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-center align-middle">Spring Boot 3.3.x</th>
+            <td>Spring Cloud 2023.0.x（Leyton）</td>
+            <td>JDK 17</td>
+            <td>JDK 21</td>
+            <td>JDK 17–23</td>
+            <td>支持 Spring Cloud 2023.0，优化原生镜像构建</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-center align-middle">Spring Boot 3.2.x</th>
+            <td>Spring Cloud 2023.0.x（Leyton）</td>
+            <td>JDK 17</td>
+            <td>JDK 21</td>
+            <td>JDK 17–21</td>
+            <td>正式支持虚拟线程（Virtual Threads）等 JDK 21 特性</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-center align-middle">Spring Boot 3.1.x</th>
+            <td>Spring Cloud 2022.0.x（Kilburn）</td>
+            <td>JDK 17</td>
+            <td>JDK 17</td>
+            <td>JDK 17–20</td>
+            <td>首个支持 GraalVM 原生镜像的 LTS 版本</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-center align-middle">Spring Boot 3.0.x</th>
+            <td>Spring Cloud 2022.0.x（Kilburn）</td>
+            <td>JDK 17</td>
+            <td>JDK 17</td>
+            <td>JDK 17–19</td>
+            <td>重大转折点：最低要求 JDK 17，包名从 javax.*迁移至 jakarta.*，基于 Spring Framework 6.0 </td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-center align-middle">Spring Boot 2.7.x</th>
+            <td>Spring Cloud 2021.0.x（Jubilee）</td>
+            <td>JDK 8</td>
+            <td>JDK 11 / 17</td>
+            <td>JDK 8–21</td>
+            <td>最后一个支持 JDK 8 的 LTS 版本，开源支持已于 2023 年 11 月结束，商业支持至 2029 年 6 月</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-center align-middle">Spring Boot 2.6.x</th>
+            <td>Spring Cloud 2021.0.x（Jubilee）</td>
+            <td>JDK 8</td>
+            <td>JDK 8 / 11</td>
+            <td>JDK 8–17</td>
+            <td>已停止维护，不建议新项目使用</td>
+        </tr>
+        <tr>
+            <th scope="row" class="text-center align-middle">Spring Boot 2.5.x 及更早</th>
+            <td>Spring Cloud 2020.0.x（Ilford）</td>
+            <td>JDK 8</td>
+            <td>JDK 8</td>
+            <td>JDK 8–16</td>
+            <td>已停止维护，仅用于历史项目 </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- 引入 Bootstrap JS -->
+<script th:src="@{/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/script/jquery-4.0.0.min.js}"></script>
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: "/ajax/getSpringBootVersion",
+            type: "GET",
+            dataType: 'json',
+            success: function (data) {
+                if (Array.isArray(data)) {
+                    let html = '<option value="">请选择版本</option>';
+                    $.each(data, function(index, item) {
+                        html += `<option value="${item}">${item}</option>`;
+                    });
+                    $("#springBootVersion").append(html);
+                }
+            },
+            error: function() {
+                console.log("网络错误，请重试");
+            }
+        });
+
+
+        $("#springBootVersionBtn").click(function() {
+            var $myDiv = $('#springBootInfo');
+
+            if ($myDiv.is(':visible')) {
+                // 如果div当前是显示的，则隐藏它
+                $myDiv.hide();
+            } else {
+                // 如果div当前是隐藏的，则显示它
+                $myDiv.show();
+            }
+        });
+
+
+        // 生成项目
+        $("#project").click(function() {
+            $.ajax({
+                url: "/api/generate",
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    "springBootVersion": $('#springBootVersion').val(),
+                    "jdkVersion": $("#jdk").val(),
+                    "projectName": $("#projectName").val(),
+                    "projectPath": $("#projectPath").val(),
+                    "groupId": $("#groupId").val(),
+                    "artifactId": $("#artifactId").val(),
+                    "description": $("#description").val(),
+                }),
+                success: function (data) {
+                    console.log("生成成功后返回数据："+data);
+                },
+                error: function() {
+                    console.log("网络错误，请重试");
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+// 模板组
+VipOrderFactoryTemplate(data) ::= <<
+package <data.packagePath>;
+
+import com.yiqian.aggregate.OrderAggregate;
+import com.yiqian.entity.OrderProductEntity;
+import com.yiqian.enums.OrderCodeEnum;
+import com.yiqian.external_service.CustomerService;
+import com.yiqian.order.dto.req.CreateOrderRequest;
+import com.yiqian.service.OrderValidateService;
+import com.yiqian.valueobject.CustomerCode;
+import com.yiqian.valueobject.Money;
+import com.yiqian.valueobject.OrderCode;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+
+/**
+ * VIP工厂实现（支持复杂创建逻辑）
+ *
+ * @author ZhangZhiHong
+ */
+@Component("VipOrderFactory")
+@RequiredArgsConstructor
+public class VipOrderFactory implements OrderFactory {
+
+    private final OrderValidateService orderValidateService;
+    private final CustomerService customerService;
+
+    @Value("${order.max-items-per-order:50}")
+    private int maxItemsPerOrder;
+
+    @Value("${order.min-order-amount:1.00}")
+    private BigDecimal minOrderAmount;
+
+    @Override
+    public OrderAggregate createOrder(CreateOrderRequest request) {
+        // 验证输入参数
+        validateReqParameters(request);
+
+        // 库存校验
+        orderValidateService.validateInventory(request);
+
+        // 创建订单Code
+        OrderCode orderCode = OrderCode.generate(OrderCodeEnum.VIP.getCode());
+
+        // 创建订单聚合
+        OrderAggregate order = OrderAggregate.create(request, orderCode);
+
+        // VIP业务折扣规则
+        vipDiscount(order);
+
+        return order;
+    }
+
+    /**
+     * VIP业务折扣规则
+     * @param order
+     */
+    private void vipDiscount(OrderAggregate order) {
+        // cust获取客户折扣等级
+        int memberLevel = customerService.getMemberLevel(new CustomerCode(order.getOrderEntity().getUserId()));
+        // 根据等级定义折扣率
+        BigDecimal discountRate = switch (memberLevel) {
+            case 1 -> BigDecimal.valueOf(0.05);
+            case 2 -> BigDecimal.valueOf(0.10);
+            case 3 -> BigDecimal.valueOf(0.15);
+            default -> BigDecimal.ZERO;
+        };
+
+        Money orderTotalAmount = order.getOrderEntity().getTotalAmount();
+        for (OrderProductEntity orderProductEntity : order.getOrderProductEntityList()) {
+            Money discountedPrice = orderProductEntity.getTotalAmount().multiply(discountRate);
+            // 计算折扣后的金额
+            Money discountedTotalAmount = orderProductEntity.getTotalAmount().subtract(discountedPrice);
+            orderProductEntity.setTotalAmount(discountedTotalAmount);
+
+            // 累加订单总金额
+            orderTotalAmount = orderTotalAmount.add(discountedTotalAmount);
+        }
+        order.getOrderEntity().setTotalAmount(orderTotalAmount);
+    }
+
+    private void validateReqParameters(CreateOrderRequest request) {
+
+    }
+
+
+
+}
+>>
