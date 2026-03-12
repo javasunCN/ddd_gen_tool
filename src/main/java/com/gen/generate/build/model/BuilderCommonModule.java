@@ -71,7 +71,7 @@ public class BuilderCommonModule {
                 }
             } else if (StrUtil.equalsAnyIgnoreCase("common", packageName)) {
                 // 生成java文件
-                List<String> enumsList = List.of("ApiResponse", "PageData", "ResponseCode");
+                List<String> enumsList = List.of("ApiResponse", "PageData", "ResponseCode", "BeanManager");
                 for (String className : enumsList) {
                     String templateFileName = className+".stg";
                     String templateGroupName = className+"Template";

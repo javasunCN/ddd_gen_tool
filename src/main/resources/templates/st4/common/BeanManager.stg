@@ -1,0 +1,32 @@
+// 模板组
+BeanManagerTemplate(data) ::= <<
+package <data.packagePath>;
+
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
+
+/**
+ * Bean管理器
+ * @author ZhangZhiHong
+ */
+
+@Component
+public class BeanManager implements ApplicationContextAware {
+
+    private static ApplicationContext applicationContext = null;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        BeanManager.applicationContext = applicationContext;
+    }
+
+
+    public static <T> T getBean(Class<T> clazz) {
+        return applicationContext.getBean(clazz);
+    }
+
+
+}
+>>
