@@ -3,8 +3,8 @@ OrderConverterTemplate(data) ::= <<
 package <data.packagePath>;
 
 import cn.hutool.v7.core.bean.BeanUtil;
-import com.yiqian.aggregate.OrderAggregate;
-import com.yiqian.order.dto.resp.OrderResponse;
+import <data.groupId>.aggregate.OrderAggregate;
+import <data.groupId>.order.dto.resp.OrderResponse;
 import org.springframework.stereotype.Component;
 
 /**

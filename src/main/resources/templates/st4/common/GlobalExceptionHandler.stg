@@ -3,8 +3,8 @@ GlobalExceptionHandlerTemplate(data) ::= <<
 package <data.packagePath>;
 
 
-import com.yiqian.common.ApiResponse;
-import com.yiqian.common.ResponseCode;
+import <data.groupId>.common.ApiResponse;
+import <data.groupId>.common.ResponseCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

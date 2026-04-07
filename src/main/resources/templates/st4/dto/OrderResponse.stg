@@ -4,7 +4,7 @@ package <data.packagePath>;
 
 import cn.hutool.v7.core.math.Money;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.yiqian.enums.OrderStatus;
+import <data.groupId>.enums.OrderStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;

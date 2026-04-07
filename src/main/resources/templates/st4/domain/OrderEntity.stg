@@ -2,10 +2,10 @@
 OrderEntityTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.enums.OrderStatus;
-import com.yiqian.valueobject.Address;
-import com.yiqian.valueobject.Money;
-import com.yiqian.valueobject.OrderCode;
+import <data.groupId>.enums.OrderStatus;
+import <data.groupId>.valueobject.Address;
+import <data.groupId>.valueobject.Money;
+import <data.groupId>.valueobject.OrderCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -3,7 +3,7 @@ OrderMapperTemplate(data) ::= <<
 package <data.packagePath>;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.yiqian.infrastructure.mybatis.tables.Order;
+import <data.groupId>.infrastructure.mybatis.tables.Order;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

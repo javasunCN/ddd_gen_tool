@@ -2,12 +2,12 @@
 GeneralOrderTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.aggregate.OrderAggregate;
-import com.yiqian.application.order.strategy.OrderStrategy;
-import com.yiqian.application.order.strategy.OrderStrategyFactory;
-import com.yiqian.enums.UserTypeEnum;
-import com.yiqian.factory.OrderFactory;
-import com.yiqian.order.dto.req.CreateOrderRequest;
+import <data.groupId>.aggregate.OrderAggregate;
+import <data.groupId>.application.order.strategy.OrderStrategy;
+import <data.groupId>.application.order.strategy.OrderStrategyFactory;
+import <data.groupId>.enums.UserTypeEnum;
+import <data.groupId>.factory.OrderFactory;
+import <data.groupId>.order.dto.req.CreateOrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;

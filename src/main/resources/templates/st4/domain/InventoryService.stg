@@ -2,8 +2,8 @@
 InventoryServiceTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.order.dto.feign.InventoryProduct;
-import com.yiqian.valueobject.ProductId;
+import <data.groupId>.order.dto.feign.InventoryProduct;
+import <data.groupId>.valueobject.ProductId;
 
 import java.util.List;
 

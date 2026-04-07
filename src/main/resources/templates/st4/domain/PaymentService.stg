@@ -2,7 +2,7 @@
 PaymentServiceTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.valueobject.Money;
+import <data.groupId>.valueobject.Money;
 
 /**
  * 外部服务接口：支付服务

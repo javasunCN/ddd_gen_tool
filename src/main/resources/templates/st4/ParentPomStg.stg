@@ -92,37 +92,37 @@ parentPomTemplate(data) ::= <<
             \</dependency>
 
             \<dependency>
-                \<groupId>com.yiqian\</groupId>
+                \<groupId><data.groupId>\</groupId>
                 \<artifactId>domain\</artifactId>
                 \<version>${project.version}\</version>
             \</dependency>
 
             \<dependency>
-                \<groupId>com.yiqian\</groupId>
+                \<groupId><data.groupId>\</groupId>
                 \<artifactId>dto\</artifactId>
                 \<version>${project.version}\</version>
             \</dependency>
 
             \<dependency>
-                \<groupId>com.yiqian\</groupId>
+                \<groupId><data.groupId>\</groupId>
                 \<artifactId>common\</artifactId>
                 \<version>${project.version}\</version>
             \</dependency>
 
             \<dependency>
-                \<groupId>com.yiqian\</groupId>
+                \<groupId><data.groupId>\</groupId>
                 \<artifactId>application\</artifactId>
                 \<version>${project.version}\</version>
             \</dependency>
 
             \<dependency>
-                \<groupId>com.yiqian\</groupId>
+                \<groupId><data.groupId>\</groupId>
                 \<artifactId>south_gateway\</artifactId>
                 \<version>${project.version}\</version>
             \</dependency>
 
             \<dependency>
-                \<groupId>com.yiqian\</groupId>
+                \<groupId><data.groupId>\</groupId>
                 \<artifactId>north_gateway\</artifactId>
                 \<version>${project.version}\</version>
             \</dependency>

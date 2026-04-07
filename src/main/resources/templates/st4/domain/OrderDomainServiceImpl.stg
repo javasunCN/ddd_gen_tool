@@ -2,9 +2,9 @@
 OrderDomainServiceImplTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.external_service.CustomerService;
-import com.yiqian.external_service.InventoryService;
-import com.yiqian.external_service.PaymentService;
+import <data.groupId>.external_service.CustomerService;
+import <data.groupId>.external_service.InventoryService;
+import <data.groupId>.external_service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

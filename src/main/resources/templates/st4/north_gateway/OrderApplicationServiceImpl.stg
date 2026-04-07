@@ -2,14 +2,14 @@
 OrderApplicationServiceImplTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.aggregate.OrderAggregate;
-import com.yiqian.application.order.converter.OrderConverter;
-import com.yiqian.application.order.strategy.OrderStrategy;
-import com.yiqian.application.order.strategy.OrderStrategyFactory;
-import com.yiqian.order.dto.req.CreateOrderRequest;
-import com.yiqian.order.dto.resp.OrderResponse;
-import com.yiqian.repository.OrderRepository;
-import com.yiqian.service.OrderDomainService;
+import <data.groupId>.aggregate.OrderAggregate;
+import <data.groupId>.application.order.converter.OrderConverter;
+import <data.groupId>.application.order.strategy.OrderStrategy;
+import <data.groupId>.application.order.strategy.OrderStrategyFactory;
+import <data.groupId>.order.dto.req.CreateOrderRequest;
+import <data.groupId>.order.dto.resp.OrderResponse;
+import <data.groupId>.repository.OrderRepository;
+import <data.groupId>.service.OrderDomainService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;

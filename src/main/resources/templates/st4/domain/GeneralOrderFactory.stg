@@ -2,11 +2,11 @@
 GeneralOrderFactoryTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.aggregate.OrderAggregate;
-import com.yiqian.enums.OrderCodeEnum;
-import com.yiqian.order.dto.req.CreateOrderRequest;
-import com.yiqian.service.OrderValidateService;
-import com.yiqian.valueobject.OrderCode;
+import <data.groupId>.aggregate.OrderAggregate;
+import <data.groupId>.enums.OrderCodeEnum;
+import <data.groupId>.order.dto.req.CreateOrderRequest;
+import <data.groupId>.service.OrderValidateService;
+import <data.groupId>.valueobject.OrderCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;

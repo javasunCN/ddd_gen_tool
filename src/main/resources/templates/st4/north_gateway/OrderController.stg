@@ -3,11 +3,11 @@ OrderControllerTemplate(data) ::= <<
 package <data.packagePath>;
 
 import cn.hutool.v7.json.JSONUtil;
-import com.yiqian.application.order.OrderApplicationService;
-import com.yiqian.common.ApiResponse;
-import com.yiqian.common.PageData;
-import com.yiqian.order.dto.req.CreateOrderRequest;
-import com.yiqian.order.dto.resp.OrderResponse;
+import <data.groupId>.application.order.OrderApplicationService;
+import <data.groupId>.common.ApiResponse;
+import <data.groupId>.common.PageData;
+import <data.groupId>.order.dto.req.CreateOrderRequest;
+import <data.groupId>.order.dto.resp.OrderResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

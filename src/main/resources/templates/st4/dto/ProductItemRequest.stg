@@ -2,7 +2,7 @@
 ProductItemRequestTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.order.dto.common.MoneyDTO;
+import <data.groupId>.order.dto.common.MoneyDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

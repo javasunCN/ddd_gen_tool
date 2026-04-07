@@ -2,8 +2,8 @@
 OrderStatusChangedEventTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.enums.OrderStatus;
-import com.yiqian.valueobject.OrderCode;
+import <data.groupId>.enums.OrderStatus;
+import <data.groupId>.valueobject.OrderCode;
 import lombok.Getter;
 import lombok.ToString;
 

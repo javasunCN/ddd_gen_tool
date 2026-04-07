@@ -8,7 +8,7 @@ package <data.packagePath>;
  * @author ZhangZhiHong
  */
 
-import com.yiqian.aggregate.OrderAggregate;
+import <data.groupId>.aggregate.OrderAggregate;
 
 public interface OrderRepository {
     // 保存聚合根

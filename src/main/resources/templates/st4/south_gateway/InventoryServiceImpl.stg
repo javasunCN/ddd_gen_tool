@@ -2,8 +2,8 @@
 InventoryServiceImplTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.order.dto.feign.InventoryProduct;
-import com.yiqian.valueobject.ProductId;
+import <data.groupId>.order.dto.feign.InventoryProduct;
+import <data.groupId>.valueobject.ProductId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

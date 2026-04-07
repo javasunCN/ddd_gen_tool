@@ -2,15 +2,15 @@
 VipOrderFactoryTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.aggregate.OrderAggregate;
-import com.yiqian.entity.OrderProductEntity;
-import com.yiqian.enums.OrderCodeEnum;
-import com.yiqian.external_service.CustomerService;
-import com.yiqian.order.dto.req.CreateOrderRequest;
-import com.yiqian.service.OrderValidateService;
-import com.yiqian.valueobject.CustomerCode;
-import com.yiqian.valueobject.Money;
-import com.yiqian.valueobject.OrderCode;
+import <data.groupId>.aggregate.OrderAggregate;
+import <data.groupId>.entity.OrderProductEntity;
+import <data.groupId>.enums.OrderCodeEnum;
+import <data.groupId>.external_service.CustomerService;
+import <data.groupId>.order.dto.req.CreateOrderRequest;
+import <data.groupId>.service.OrderValidateService;
+import <data.groupId>.valueobject.CustomerCode;
+import <data.groupId>.valueobject.Money;
+import <data.groupId>.valueobject.OrderCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

@@ -2,8 +2,8 @@
 OrderStrategyTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.aggregate.OrderAggregate;
-import com.yiqian.order.dto.req.CreateOrderRequest;
+import <data.groupId>.aggregate.OrderAggregate;
+import <data.groupId>.order.dto.req.CreateOrderRequest;
 
 /**
  * 生成订单策略接口

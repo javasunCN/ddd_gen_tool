@@ -2,9 +2,9 @@
 OrderProductEntityTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.valueobject.Money;
-import com.yiqian.valueobject.OrderCode;
-import com.yiqian.valueobject.ProductId;
+import <data.groupId>.valueobject.Money;
+import <data.groupId>.valueobject.OrderCode;
+import <data.groupId>.valueobject.ProductId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

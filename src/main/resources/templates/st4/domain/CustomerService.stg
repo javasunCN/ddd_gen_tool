@@ -2,9 +2,9 @@
 CustomerServiceTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.valueobject.CustomerCode;
-import com.yiqian.valueobject.Money;
-import com.yiqian.valueobject.OrderCode;
+import <data.groupId>.valueobject.CustomerCode;
+import <data.groupId>.valueobject.Money;
+import <data.groupId>.valueobject.OrderCode;
 
 /**
  * 外部服务接口: 客户服务

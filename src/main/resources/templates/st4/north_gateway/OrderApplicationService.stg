@@ -2,9 +2,9 @@
 OrderApplicationServiceTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.aggregate.OrderAggregate;
-import com.yiqian.order.dto.req.CreateOrderRequest;
-import com.yiqian.order.dto.resp.OrderResponse;
+import <data.groupId>.aggregate.OrderAggregate;
+import <data.groupId>.order.dto.req.CreateOrderRequest;
+import <data.groupId>.order.dto.resp.OrderResponse;
 
 /**
  * 订单应用服务接口

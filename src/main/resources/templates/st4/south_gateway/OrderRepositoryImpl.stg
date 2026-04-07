@@ -3,8 +3,8 @@ OrderRepositoryImplTemplate(data) ::= <<
 package <data.packagePath>;
 
 import cn.hutool.v7.json.JSONUtil;
-import com.yiqian.aggregate.OrderAggregate;
-import com.yiqian.infrastructure.mybatis.mapper.OrderMapper;
+import <data.groupId>.aggregate.OrderAggregate;
+import <data.groupId>.infrastructure.mybatis.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

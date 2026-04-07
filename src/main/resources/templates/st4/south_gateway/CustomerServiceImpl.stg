@@ -2,9 +2,9 @@
 CustomerServiceImplTemplate(data) ::= <<
 package <data.packagePath>;
 
-import com.yiqian.valueobject.CustomerCode;
-import com.yiqian.valueobject.Money;
-import com.yiqian.valueobject.OrderCode;
+import <data.groupId>.valueobject.CustomerCode;
+import <data.groupId>.valueobject.Money;
+import <data.groupId>.valueobject.OrderCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
