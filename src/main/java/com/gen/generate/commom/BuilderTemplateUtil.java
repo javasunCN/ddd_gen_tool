@@ -199,7 +199,7 @@ public class BuilderTemplateUtil {
 
         // 3. 生成输出路径
 
-        String fileName = "README.md";
+        String fileName = StrUtil.isBlank(generateReqDto.getFileName())?"README.md":generateReqDto.getFileName();
         String moduleName = generateReqDto.getModuleName();
         String outputDir = generateReqDto.getProjectAbsolutePath();
         if (StrUtil.isNotBlank(moduleName)) {

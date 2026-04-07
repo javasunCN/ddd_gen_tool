@@ -19,6 +19,7 @@ public class BuilderReadmeModule {
         generateReqDto.setTemplateFileName("templates/st4/ReadmeStg.stg");
         // 模板文件组名
         generateReqDto.setTemplateGroupName("readmeTemplate");
+        generateReqDto.setFileName("README.md");
         // 生成文件
         BuilderTemplateUtil.readmeGenerator(generateReqDto);
     }

@@ -26,6 +26,20 @@ public class BuilderDocModule {
         // 模板文件组名
         generateReqDto.setTemplateGroupName("readmeTemplate");
         generateReqDto.setDescription("领域驱动文档归档包");
+        generateReqDto.setFileName("README.md");
+        // 生成文件
+        BuilderTemplateUtil.readmeGenerator(generateReqDto);
+
+
+        generateReqDto.setModuleName("doc");
+
+        // 文档目录创建README.md
+        // 模板文件
+        generateReqDto.setTemplateFileName("templates/st4/doc/DevelopmentSpecificationManualStg.stg");
+        // 模板文件组名
+        generateReqDto.setTemplateGroupName("DevelopmentSpecificationManualTemplate");
+        generateReqDto.setDescription("项目开发手册");
+        generateReqDto.setFileName("项目开发手册.md");
         // 生成文件
         BuilderTemplateUtil.readmeGenerator(generateReqDto);
     }

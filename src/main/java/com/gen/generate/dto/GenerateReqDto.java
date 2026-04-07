@@ -27,7 +27,8 @@ public class GenerateReqDto {
     private String artifactId;
     /** 微服务项目描述 **/
     private String description;
-
+    /** 文件名 **/
+    private String fileName;
 
 
 
